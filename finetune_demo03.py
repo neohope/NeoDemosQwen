@@ -33,6 +33,9 @@ bash finetune/finetune_qlora_single_gpu.sh
 bash finetune/finetune_qlora_ds.sh
 '''
 
+path_to_adapter = "/path/to/output/directory"
+merged_model_directory = "/path/to/merged/model"
+
 # 微调后，可以读取训练后的模型
 model = AutoPeftModelForCausalLM.from_pretrained(
     path_to_adapter, # path to the output directory
@@ -51,11 +54,11 @@ merged_model = model.merge_and_unload()
 
 # max_shard_size and safe serialization are not necessary. 
 # They respectively work for sharding checkpoint and save the model to safetensors
-merged_model.save_pretrained(new_model_directory, max_shard_size="2048MB", safe_serialization=True)
+merged_model.save_pretrained(merged_model_directory, max_shard_size="2048MB", safe_serialization=True)
 
 # 保存tokenizer
 tokenizer = AutoTokenizer.from_pretrained(
     path_to_adapter, # path to the output directory
     trust_remote_code=True
 )
-tokenizer.save_pretrained(new_model_directory)
+tokenizer.save_pretrained(merged_model_directory)

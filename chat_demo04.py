@@ -38,7 +38,10 @@ model = AutoModelForCausalLM.from_pretrained(
     device_map="auto",
     trust_remote_code=True
 ).eval()
-model.generation_config = GenerationConfig.from_pretrained('./', pad_token_id=tokenizer.pad_token_id)
+model.generation_config = GenerationConfig.from_pretrained(
+    './', 
+    pad_token_id=tokenizer.pad_token_id,
+    trust_remote_code=True)
 
 # 准备问题
 all_raw_text = ["我想听你说爱我。", "今天我想吃点啥，甜甜的，推荐下", "我马上迟到了，怎么做才能不迟到"]
